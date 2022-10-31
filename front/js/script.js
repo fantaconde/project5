@@ -9,7 +9,7 @@ fetch("http://localhost:3000/api/products")
 
     //Loop through the data and display it on the HTML page
     data.forEach(product => {
-        document.querySelector(".items").innerHTML += `
+        document.querySelector("#items").innerHTML += `
         
          <a href="./product.html?id=${product._id}">
             <article>
@@ -25,10 +25,3 @@ fetch("http://localhost:3000/api/products")
 .catch(error => {
     console.error(error);
 })
-
-
-// <div class="card">
-        //     <h2>${product.name}</h2>
-        //     <p>${product.price}</p>
-        //     <p>${product.description}</p>
-        // </div>
