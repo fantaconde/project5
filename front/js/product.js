@@ -52,16 +52,22 @@ fetch("http://localhost:3000/api/products/" + id)
 
 function addToCart() {
   // basket = []
+  //create an array called basket it should include : productid, productColor, productQuantity
   const quantity = document.getElementById("quantity").value;
   const color = document.getElementById("colors").value;
-  const price = productDetails[0].price;
+  console.log(quantity);
+  console.log(color);
 
   const basket = {
     productid: `${id}`,
     productQuantity: `${quantity}`,
     productColor: `${color}`,
-    productPrice: `${price}`,
   };
+
+  //Check Cart => localStorage.getItem("cart")
+  //write Cart =>  localStorage.setItem("cart", JSON.stringify(basket))
+  //JSON.stringify => convert an object to a string
+  //JSON.parse => convert a string to an object
 
   //Check if cart is empty
   if (localStorage.getItem("cart") === null) {
@@ -77,14 +83,18 @@ function addToCart() {
     const productInCart = cart.find(
         (product) => product.productid === id && product.productColor === color
         );
+      
 
     //If product is already in cart
     if (productInCart) {
+      console.log(productInCart)
       //Update quantity
       productInCart.productQuantity =
+      //parseInt => convert a string to a number
         parseInt(productInCart.productQuantity) + parseInt(quantity);
       console.log(productInCart.productQuantity);
-      //Update cart
+
+      //Update cart localStorage
       localStorage.setItem("cart", JSON.stringify(cart));
     }
     //if product is not in cart
@@ -94,14 +104,3 @@ function addToCart() {
     }
   }
 }
-
-// addToCart.push(item)
-
-// fetch(url)
-// .then(response => response.json())
-// .then(data => {
-//     //use the data
-// })
-// .catch(error => {
-//     //do anything with the error
-// });
