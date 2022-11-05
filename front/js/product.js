@@ -1,7 +1,7 @@
 //Get the URL of the current page
 //
 var url_str = window.location.href;
-console.log(url_str);
+// console.log(url_str);
 
 //Set the URL of the current page to a variable
 var url = new URL(url_str);
@@ -14,12 +14,12 @@ var id = url.searchParams.get("id");
 const productDetails = [];
 
 //Console log the ID
-console.log(id);
+// console.log(id);
 
 fetch("http://localhost:3000/api/products/" + id)
   .then((response) => response.json())
   .then((product) => {
-    console.log(product);
+    // console.log(product);
     productDetails.push(product);
     //insert product image
     document.querySelector(".item__img").innerHTML += `
@@ -55,13 +55,19 @@ function addToCart() {
   //create an array called basket it should include : productid, productColor, productQuantity
   const quantity = document.getElementById("quantity").value;
   const color = document.getElementById("colors").value;
-  console.log(quantity);
-  console.log(color);
+  
+  //get price from the product details
+  const price = productDetails[0].price;
+
+  // console.log(quantity);
+  // console.log(color);
+  // console.log(price)
 
   const basket = {
     productid: `${id}`,
     productQuantity: `${quantity}`,
     productColor: `${color}`,
+    productPrice: `${price}`,
   };
 
   //Check Cart => localStorage.getItem("cart")
@@ -92,7 +98,7 @@ function addToCart() {
       productInCart.productQuantity =
       //parseInt => convert a string to a number
         parseInt(productInCart.productQuantity) + parseInt(quantity);
-      console.log(productInCart.productQuantity);
+      // console.log(productInCart.productQuantity);
 
       //Update cart localStorage
       localStorage.setItem("cart", JSON.stringify(cart));
