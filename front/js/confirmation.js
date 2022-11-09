@@ -1,11 +1,15 @@
-//get the order number and clear the cart from local storage
 
-var orderNumber = JSON.parse(localStorage.getItem("order"));
-console.log(orderNumber.orderId);
+//get url of the current page
+var url = window.location.href;
 
-document.getElementById("orderId").innerHTML = orderNumber.orderId;
+//conver the url to an array
+var urlArray = new URL(url);
+
+//get the order number from the url
+var orderNumber = urlArray.searchParams.get("id");
+
+//display the order number on the page
+document.getElementById("orderId").innerHTML = orderNumber;
 
 //clear the cart from local storage
-localStorage.removeItem("cart");
-//clear the order from local storage
-localStorage.removeItem("order");
+localStorage.removeItem("cart");    

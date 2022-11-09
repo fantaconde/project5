@@ -134,9 +134,16 @@ function validateForm() {
   let email = document.getElementById("email").value;
   let checkEmail = email.includes("@");
 
+  //Define RegEx for number
+  let number = /[0-9]/;
+
   if (firstName == "") {
     document.getElementById("firstNameErrorMsg").innerHTML =
       "enter your first name";
+    return false;
+  } else if (number.test(firstName)) {
+    document.getElementById("firstNameErrorMsg").innerHTML =
+      "your first name can't contain numbers";
     return false;
   } else {
     document.getElementById("firstNameErrorMsg").innerHTML = "";
@@ -145,6 +152,10 @@ function validateForm() {
   if (lastName == "") {
     document.getElementById("lastNameErrorMsg").innerHTML =
       "enter your last name";
+    return false;
+  } else if (number.test(lastName)) {
+    document.getElementById("lastNameErrorMsg").innerHTML =
+      "your last name can't contain numbers";
     return false;
   } else {
     document.getElementById("lastNameErrorMsg").innerHTML = "";
@@ -173,13 +184,30 @@ function validateForm() {
   } else {
     document.getElementById("emailErrorMsg").innerHTML = "";
   }
+
+  //Check if the email name and address is not a number
+
+  return true;
+}
+
+//check if the total product quantity is greater than 100
+
+function checkQuantity() {
+  let totalQuantity = 0;
+  cart.forEach((product) => {
+    totalQuantity += parseInt(product.productQuantity);
+  });
+  if (totalQuantity > 100) {
+    alert("You can't order more than 100 products");
+    return false;
+  }
   return true;
 }
 
 //add event to order button
 document.getElementById("order").addEventListener("click", function () {
   //run the form validation
-  if (validateForm() == true) {
+  if ((validateForm() == true) & (checkQuantity() == true)) {
     //if the validation is true, get the form data
 
     //get cart product id
@@ -196,8 +224,8 @@ document.getElementById("order").addEventListener("click", function () {
       email: email,
     };
 
-    console.log("Method Activated");
-    console.log(contact);
+    // console.log("Method Activated");
+    // console.log(contact);
     const body = { contact, products };
 
     //Get the response from the form and make it an JSON Object
@@ -211,9 +239,10 @@ document.getElementById("order").addEventListener("click", function () {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
-        localStorage.setItem("order", JSON.stringify(data));
-        window.location.href = "confirmation.html";
+        console.log(data.orderId);
+        let orderId = data.orderId;
+        // localStorage.setItem("order", JSON.stringify(data));
+        window.location.href = "confirmation.html?id=" + orderId;
       })
       .catch((error) => {
         console.log(error);
@@ -223,4 +252,3 @@ document.getElementById("order").addEventListener("click", function () {
     console.log("form validated failed");
   }
 });
-
