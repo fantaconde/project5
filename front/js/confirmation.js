@@ -1,14 +1,15 @@
-//Obtenir l’URL de la page actuelle
-let url = window.location.href;
 
-//Convertir l’URL vers un tableau
-let urlArray = new URL(url);
+//get url of the current page
+var url = window.location.href;
 
-//Obtenir le numéro de commande à partir de l’URL
-let orderNumber = urlArray.searchParams.get("id");
+//conver the url to an array
+var urlArray = new URL(url);
 
-//Afficher le numéro de commande sur la page
+//get the order number from the url
+var orderNumber = urlArray.searchParams.get("id");
+
+//display the order number on the page
 document.getElementById("orderId").innerHTML = orderNumber;
 
-//Effacer le panier du stockage local
+//clear the cart from local storage
 localStorage.removeItem("cart");    
