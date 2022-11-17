@@ -1,13 +1,13 @@
 
-//Call the API
+// Appeler l'API
 fetch("http://localhost:3000/api/products")
 .then(response => response.json())
-//Console log the data and use the data on the HTML Page
+//consigner les données et utiliser les données sur la page HTML
 .then(data => {
-    //confirm the data has been received
+    //confirmer que les données ont été reçues
     console.log(data);
 
-    //Loop through the data and display it on the HTML page
+    //Parcourez les données en boucle et affichez-les sur la page HTML
     data.forEach(product => {
         document.querySelector("#items").innerHTML += `
         
@@ -21,7 +21,7 @@ fetch("http://localhost:3000/api/products")
         `
     })
 })
-//Return an error if the API call fails
+//Renvoyer une erreur si l’appel d’API échoue
 .catch(error => {
     console.error(error);
 })

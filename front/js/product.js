@@ -1,10 +1,10 @@
 //Obtenir l’URL de la page active
 //
-var url_str = window.location.href;
+let url_str = window.location.href;
 console.log(url_str);
 
 //Définir l’URL de la page active sur une variable
-var url = new URL(url_str);
+let url = new URL(url_str);
 console.log(url);
 
 //Obtenir l’ID à partir de l’URL
@@ -50,13 +50,19 @@ fetch("http://localhost:3000/api/products/" + id)
     console.log(error);
   });
 
+  // ici cest pour ajouter au panier les produits
+
 function addToCart() {
   // panier = []
+  let cartbutton = document.querySelector('#addToCart')
+  cartbutton.addEventListener('click', function(){
+let arrayproduct = JSON.parse(localStorage.getItem("cart"));
+ 
   // créer un tableau appelé panier Il doit inclure : productid, productColor, productQuantity
   const quantity = document.getElementById("quantity").value;
   const color = document.getElementById("colors").value;
-  console.log(quantity);
-  console.log(color);
+
+ 
 
   const basket = {
     productid: `${id}`,
@@ -71,36 +77,42 @@ function addToCart() {
 
   //Vérifiez si le panier est vide
   if (localStorage.getItem("cart") === null) {
+    arrayproduct = []
     //Créer un panier
-    localStorage.setItem("cart", JSON.stringify([basket]));
+ arrayproduct.push(basket)
+    localStorage.setItem("cart", JSON.stringify(arrayproduct));
     console.log("cart created");
     //si le panier n'est pas vide
   } else {
     //obtenir le panier
-    const cart = JSON.parse(localStorage.getItem("cart"));
+  
 
     //Vérifiez si le produit est déjà dans le panier
-    const productInCart = cart.find(
+    const productInCart = arrayproduct.findIndex(
         (product) => product.productid === id && product.productColor === color
         );
-      
+
+console.log(productInCart)
 
     //Si le produit est déjà dans le panier
-    if (productInCart) {
-      console.log(productInCart)
+    if (productInCart > -1) {
+     
+   
       //mettre à jour la quantité
-      productInCart.productQuantity =
-      //parseInt => convertir une chaîne en nombre
-        parseInt(productInCart.productQuantity) + parseInt(quantity);
-      console.log(productInCart.productQuantity);
+
+      arrayproduct[productInCart].productQuantity =  parseInt(arrayproduct[productInCart].productQuantity) + parseInt(quantity);
 
       //Mettre à jour le panier localStorag
-      localStorage.setItem("cart", JSON.stringify(cart));
+      localStorage.setItem("cart", JSON.stringify(arrayproduct));
     }
     //si le produit n’est pas dans le panier
     else {
       //  Ajouter un produit au panier
-      localStorage.setItem("cart", JSON.stringify([...cart, basket]));
+      localStorage.setItem("cart", JSON.stringify([...arrayproduct, basket]));
     }
   }
+  })
 }
+
+
+addToCart()
