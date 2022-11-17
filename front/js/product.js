@@ -1,14 +1,7 @@
-
 //Obtenir l’URL de la page active
 //
 let url_str = window.location.href;
 console.log(url_str);
-
-//Get the URL of the current page
-//
-let url_str = window.location.href;
-// console.log(url_str);
-
 
 //Définir l’URL de la page active sur une variable
 let url = new URL(url_str);
@@ -17,35 +10,21 @@ console.log(url);
 //Obtenir l’ID à partir de l’URL
 var id = url.searchParams.get("id");
 
-
 //valeur du magazin
 const productDetails = [];
 
 //Consigner le ID de la console
 console.log(id);
 
-//Store Values
-const productDetails = [];
-
-//Console log the ID
-
-
 fetch("http://localhost:3000/api/products/" + id)
   .then((response) => response.json())
   .then((product) => {
-
     console.log(product);
     productDetails.push(product);
     //inserer une image de produit
-
-    // console.log(product);
-    productDetails.push(product);
-    //insert product image
-
     document.querySelector(".item__img").innerHTML += `
          <img src="${product.imageUrl}" alt="Photographie d'un canapé">
         `;
-
 
     //inserer le titre du produit
     document.getElementById("title").innerHTML = `${product.name}`;
@@ -61,22 +40,6 @@ fetch("http://localhost:3000/api/products/" + id)
 
     //Insérer les couleurs du produit
     //document.getElementById('colors').innerHTML = '${product.colors}';
-
-    //insert product title
-    document.getElementById("title").innerHTML = `${product.name}`;
-
-    //Insert product description
-    document.getElementById("description").innerHTML = `${product.description}`;
-
-    //get quantity
-    // var quantity = document.getElementById('quantity').value;
-    // var totalprice = product.price * 2;
-    //Insert product price
-    document.getElementById("price").innerHTML = `${product.price}`;
-
-    //Insert product colors
-    // document.getElementById('colors').innerHTML = `${product.colors}`;
-
     product.colors.forEach((color) => {
       document.querySelector("#colors").innerHTML += `
                 <option value="${color}">${color}</option>
@@ -86,9 +49,6 @@ fetch("http://localhost:3000/api/products/" + id)
   .catch((error) => {
     console.log(error);
   });
-
-
-  // ici cest pour ajouter au panier les produits
 
 function addToCart() {
   // panier = []
@@ -151,19 +111,6 @@ console.log(productInCart)
   }
   })
 }
-function addToCart() {
-  // basket = []
-  //create an array called basket it should include : productid, productColor, productQuantity
-  const quantity = document.getElementById("quantity").value;
-  const color = document.getElementById("colors").value;
-  
-  //get price from the product details
-  const price = productDetails[0].price;
-
-
-  // console.log(quantity);
-  // console.log(color);
-  // console.log(price)
 
 
 addToCart()
@@ -214,5 +161,5 @@ addToCart()
       localStorage.setItem("cart", JSON.stringify([...cart, basket]));
     }
   }
-}
+
 
