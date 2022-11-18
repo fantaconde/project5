@@ -1,45 +1,45 @@
-//Obtenir l’URL de la page active
+//Get the URL of the current page
 //
-let url_str = window.location.href;
-console.log(url_str);
+var url_str = window.location.href;
+// console.log(url_str);
 
-//Définir l’URL de la page active sur une variable
-let url = new URL(url_str);
+//Set the URL of the current page to a variable
+var url = new URL(url_str);
 console.log(url);
 
-//Obtenir l’ID à partir de l’URL
+//Get the ID from the URL
 var id = url.searchParams.get("id");
 
-//valeur du magazin
+//Store Values
 const productDetails = [];
 
-//Consigner le ID de la console
-console.log(id);
+//Console log the ID
+// console.log(id);
 
 fetch("http://localhost:3000/api/products/" + id)
   .then((response) => response.json())
   .then((product) => {
-    console.log(product);
+    // console.log(product);
     productDetails.push(product);
-    //inserer une image de produit
+    //insert product image
     document.querySelector(".item__img").innerHTML += `
          <img src="${product.imageUrl}" alt="Photographie d'un canapé">
         `;
 
-    //inserer le titre du produit
+    //insert product title
     document.getElementById("title").innerHTML = `${product.name}`;
 
-    //Inserer la description du produit
+    //Insert product description
     document.getElementById("description").innerHTML = `${product.description}`;
 
-    // Obtenir la quantité
-    //  let quantity = document.getElementById('quantity').value
-    //  let totalprice = product.price * 2;
-    //Insérer le prix du produit
+    //get quantity
+    // var quantity = document.getElementById('quantity').value;
+    // var totalprice = product.price * 2;
+    //Insert product price
     document.getElementById("price").innerHTML = `${product.price}`;
 
-    //Insérer les couleurs du produit
-    //document.getElementById('colors').innerHTML = '${product.colors}';
+    //Insert product colors
+    // document.getElementById('colors').innerHTML = `${product.colors}`;
     product.colors.forEach((color) => {
       document.querySelector("#colors").innerHTML += `
                 <option value="${color}">${color}</option>
@@ -51,69 +51,17 @@ fetch("http://localhost:3000/api/products/" + id)
   });
 
 function addToCart() {
-  // panier = []
-  let cartbutton = document.querySelector('#addToCart')
-  cartbutton.addEventListener('click', function(){
-let arrayproduct = JSON.parse(localStorage.getItem("cart"));
- 
-  // créer un tableau appelé panier Il doit inclure : productid, productColor, productQuantity
+  // basket = []
+  //create an array called basket it should include : productid, productColor, productQuantity
   const quantity = document.getElementById("quantity").value;
   const color = document.getElementById("colors").value;
 
- 
+  //get price from the product details
+  const price = productDetails[0].price;
 
-  const basket = {
-    productid: `${id}`,
-    productQuantity: `${quantity}`,
-    productColor: `${color}`,
-  };
-
-  //Check Cart => localStorage.getItem(« panier »)
-  //write Cart => localStorage.setItem(« cart », JSON.stringify(basket))
-  //JSON.stringify => convertir un objet en chaîne
-  //JSON.parse => convertir une chaîne en objet
-
-  //Vérifiez si le panier est vide
-  if (localStorage.getItem("cart") === null) {
-    arrayproduct = []
-    //Créer un panier
- arrayproduct.push(basket)
-    localStorage.setItem("cart", JSON.stringify(arrayproduct));
-    console.log("cart created");
-    //si le panier n'est pas vide
-  } else {
-    //obtenir le panier
-  
-
-    //Vérifiez si le produit est déjà dans le panier
-    const productInCart = arrayproduct.findIndex(
-        (product) => product.productid === id && product.productColor === color
-        );
-
-console.log(productInCart)
-
-    //Si le produit est déjà dans le panier
-    if (productInCart > -1) {
-     
-   
-      //mettre à jour la quantité
-
-      arrayproduct[productInCart].productQuantity =  parseInt(arrayproduct[productInCart].productQuantity) + parseInt(quantity);
-
-      //Mettre à jour le panier localStorag
-      localStorage.setItem("cart", JSON.stringify(arrayproduct));
-    }
-    //si le produit n’est pas dans le panier
-    else {
-      //  Ajouter un produit au panier
-      localStorage.setItem("cart", JSON.stringify([...arrayproduct, basket]));
-    }
-  }
-  })
-}
-
-
-addToCart()
+  // console.log(quantity);
+  // console.log(color);
+  // console.log(price)
 
   const basket = {
     productid: `${id}`,
@@ -139,16 +87,15 @@ addToCart()
 
     //Check if product is already in cart
     const productInCart = cart.find(
-        (product) => product.productid === id && product.productColor === color
-        );
-      
+      (product) => product.productid === id && product.productColor === color
+    );
 
     //If product is already in cart
     if (productInCart) {
-      console.log(productInCart)
+      console.log(productInCart);
       //Update quantity
       productInCart.productQuantity =
-      //parseInt => convert a string to a number
+        //parseInt => convert a string to a number
         parseInt(productInCart.productQuantity) + parseInt(quantity);
       // console.log(productInCart.productQuantity);
 
@@ -161,5 +108,4 @@ addToCart()
       localStorage.setItem("cart", JSON.stringify([...cart, basket]));
     }
   }
-
-
+}
