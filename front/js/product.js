@@ -56,7 +56,7 @@ function addToCart() {
   const quantity = document.getElementById("quantity").value;
   const color = document.getElementById("colors").value;
 
-  //get price from the product details
+  // obtenir le prix depuis le detail de produit
   const price = productDetails[0].price;
 
   // console.log(quantity);
